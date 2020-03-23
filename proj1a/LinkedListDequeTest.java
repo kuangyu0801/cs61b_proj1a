@@ -3,15 +3,6 @@ import static org.junit.Assert.assertEquals;
 
 /** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
-	@Test
-	public void testGetRecursion() {
-		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
-		lld1.addFirst("front");
-		lld1.addLast("middle");
-		assertEquals("front", lld1.getRecursive(0));
-		assertEquals("middle", lld1.getRecursive(1));
-	}
-
 	/* Utility method for printing out empty checks. */
 	public static boolean checkEmpty(boolean expected, boolean actual) {
 		if (expected != actual) {
@@ -29,6 +20,14 @@ public class LinkedListDequeTest {
 		assertEquals("middle", lld1.get(1));
 	}
 
+	@Test
+	public void testGetRecursion() {
+		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
+		lld1.addFirst("front");
+		lld1.addLast("middle");
+		assertEquals("front", lld1.getRecursive(0));
+		assertEquals("middle", lld1.getRecursive(1));
+	}
 	/* Utility method for printing out empty checks. */
 	public static boolean checkSize(int expected, int actual) {
 		if (expected != actual) {
