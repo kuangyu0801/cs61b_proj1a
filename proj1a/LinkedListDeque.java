@@ -1,3 +1,6 @@
+/**
+ * using two sentinel topology
+ * */
 public class LinkedListDeque<T> {
     private DequeNode sentiFirst;
     private DequeNode sentiLast;
@@ -31,12 +34,11 @@ public class LinkedListDeque<T> {
         }
     }
 
+
     public LinkedListDeque() {
         // initiate a node without assigning item;
         this.sentiFirst = new DequeNode();
         this.sentiLast = this.sentiFirst;
-        this.sentiFirst.prev = this.sentiFirst;
-        this.sentiFirst.next = this.sentiFirst;
         this.size = 0;
     }
 
@@ -44,18 +46,10 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             sentiFirst.i = item;
         } else {
-            /*buffering the first node*/
+            /* buffering the first node */
             DequeNode oldFirst = sentiFirst;
-            sentiFirst = new DequeNode(item, sentiLast, oldFirst.next);
-
-            /* in size == 1 case sentiLast == oldFrist*/
-            if (size == 1) {
-                oldFirst.prev = sentiFirst;
-                oldFirst.next = sentiFirst;
-            } else {
-                oldFirst.prev = sentiFirst;
-                sentiLast.next = sentiFirst;
-            }
+            sentiFirst = new DequeNode(item, null, oldFirst);
+            oldFirst.prev = sentiFirst;
         }
         size += 1;
     }
@@ -66,14 +60,8 @@ public class LinkedListDeque<T> {
         } else {
             /*buffering the last node*/
             DequeNode oldLast = sentiLast;
-            sentiLast = new DequeNode(item, oldLast, sentiFirst);
-            if (size == 1) {
-                oldLast.prev = sentiLast;
-                oldLast.next = sentiLast;
-            } else {
-                oldLast.next = sentiLast;
-                sentiFirst.prev = sentiLast;
-            }
+            sentiLast = new DequeNode(item, oldLast, null);
+            oldLast.next = sentiLast;
         }
         size += 1;
     }
@@ -114,8 +102,7 @@ public class LinkedListDeque<T> {
                 sentiFirst.i = null;
             } else {
                 sentiFirst = sentiFirst.next;
-                sentiFirst.prev = sentiLast;
-                sentiLast.next = sentiFirst;
+                sentiFirst.prev = null;
             }
             size -= 1;
         }
@@ -132,29 +119,31 @@ public class LinkedListDeque<T> {
                 sentiLast.i = null;
             } else {
                 sentiLast = sentiLast.prev;
-                sentiLast.next = sentiFirst;
-                sentiFirst.prev = sentiLast;
-                /*
-                sentiFirst = sentiFirst.next;
-                sentiFirst.prev = sentiLast;
-                sentiLast.next = sentiFirst;*/
+                sentiLast.next = null;
             }
             size -= 1;
         }
         return rtVal;
     }
 
-    /*use iteration, not recursion*/
+    /**
+     * use iteration, not recursion
+     * Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
+     * If no such item exists, returns null.
+     * */
     public T get(int index) {
+        if(size == 0 || index > size) {
+            return null;
+        }
         DequeNode ptr;
         if (index < (size + size % 2) / 2) {
             ptr = sentiFirst;
-            for (int i = 0; i < index - 1; i += 1) {
+            for (int i = 1; i < index + 1; i += 1) {
                 ptr = ptr.next;
             }
         } else {
             ptr = sentiLast;
-            for (int i = 0; i < size - index + 1; i += 1) {
+            for (int i = 1; i < size - (index + 1); i += 1) {
                 ptr = ptr.prev;
             }
         }
@@ -169,6 +158,9 @@ public class LinkedListDeque<T> {
     }
 
     public T getRecursive(int index) {
+        if(size == 0 || index > size) {
+            return null;
+        }
         if (index < 0) {
             return null;
         }
