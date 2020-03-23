@@ -4,9 +4,9 @@ public class LinkedListDeque<T> {
     private int size;
 
     private class DequeNode {
-        public T i;
-        public DequeNode next;
-        public DequeNode prev;
+        private T i;
+        private DequeNode next;
+        private DequeNode prev;
 
         public DequeNode(T item, DequeNode front, DequeNode back) {
             i = item;
@@ -18,6 +18,17 @@ public class LinkedListDeque<T> {
             prev = null;
         }
 
+        public void setPrev(DequeNode prev) {
+            this.prev = prev;
+        }
+
+        public void setNext(DequeNode next) {
+            this.next = next;
+        }
+
+        public T get() {
+            return i;
+        }
     }
 
     public LinkedListDeque() {
@@ -86,12 +97,7 @@ public class LinkedListDeque<T> {
             returnSB.append(", ");
             ptr = ptr.next;
         }
-        /*
-        using get() method
-        for (int i = 0; i < size; i += 1) {
-            returnSB.append(this.get(i));
-            returnSB.append(",");
-        }*/
+
         returnSB.append("}");
         System.out.println("[Printing Output]");
         System.out.println(returnSB.toString());
@@ -141,7 +147,7 @@ public class LinkedListDeque<T> {
     /*use iteration, not recursion*/
     public T get(int index) {
         DequeNode ptr;
-        if( index < (size + size % 2) / 2 ) {
+        if ( index < (size + size % 2) / 2 ) {
             ptr = sentiFirst;
             for (int i = 0; i < index - 1; i += 1) {
                 ptr = ptr.next;
@@ -155,15 +161,6 @@ public class LinkedListDeque<T> {
         return ptr.i;
     }
 
-/*    private  DequeNode getNode(DequeNode n, int index, int pos) {
-        if (index == pos) {
-            return n;
-        }
-        if (index > pos || n == null) {
-            return null;
-        }
-        return getNode(n.next, index, pos++);
-    }*/
     private DequeNode getNode(DequeNode n, int index) {
         if (index == 0) {
             return n;
