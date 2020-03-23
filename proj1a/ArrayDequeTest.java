@@ -120,4 +120,22 @@ public class ArrayDequeTest {
         lld2.printDeque();
     }
 
+    @Test
+    public void autoGraderGetTest() {
+        ArrayDeque<Integer> lld2 = new ArrayDeque<>();
+        lld2.addFirst(0);
+        lld2.addFirst(1);
+        lld2.get(0);
+        lld2.addLast(3);
+        lld2.removeFirst();    //  ==> 1
+        lld2.addLast(5);
+        lld2.get(0); //      ==> 0
+        lld2.addFirst(7);
+        lld2.addLast(8);
+        lld2.addFirst(9);
+        lld2.addFirst(10);
+        lld2.addFirst(11);
+        lld2.removeLast(); //      ==> 0
+    }
+
 }

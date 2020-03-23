@@ -3,7 +3,14 @@ public class ArrayDeque<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
+    private int oldFirst;
+    private int oldLast;
 
+    /* buffering the old pointer for resizing*/
+    private void oldUpdate() {
+        oldFirst = nextFirst;
+        oldLast = nextLast;
+    }
     public ArrayDeque() {
         items = (T []) new Object[8];
         nextFirst = 4; // First pointer starts in the middle
@@ -13,6 +20,7 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         items[nextFirst] = item;
+        this.oldUpdate();
         nextFirst = (nextFirst - 1 < 0) ? items.length - 1 : nextFirst - 1;
         size += 1;
         this.resize(this.resizeCheck());
@@ -20,6 +28,7 @@ public class ArrayDeque<T> {
 
     public void addLast(T item) {
         items[nextLast] = item;
+        this.oldUpdate();
         nextLast = (nextLast + 1 == items.length) ? 0 : nextLast + 1;
         size += 1;
         this.resize(this.resizeCheck());
@@ -50,6 +59,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
+        this.oldUpdate();
         nextFirst = (nextFirst + 1 == items.length) ? 0 : nextFirst + 1;
         T item = items[nextFirst];
         size -= 1;
@@ -61,6 +71,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
+        this.oldUpdate();
         nextLast = (nextLast - 1 < 0) ? items.length - 1 : nextLast - 1;
         T item = items[nextLast];
         size -= 1;
@@ -75,8 +86,8 @@ public class ArrayDeque<T> {
     private void resize(int checkRslt) {
 
         int oldLength = items.length;
-        int posFirst = (nextFirst + 1 == oldLength) ? 0 : nextFirst + 1;
-        int posLast = (nextLast - 1 < 0) ? oldLength - 1 : nextLast - 1;
+        int posFirst = (oldFirst + 1 == oldLength) ? 0 : oldFirst + 1;
+        int posLast = (oldLast - 1 < 0) ? oldLength - 1 : oldLast - 1;
 
         /* scale up by 4 times */
         if (checkRslt == 1) {

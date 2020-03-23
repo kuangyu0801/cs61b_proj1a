@@ -132,11 +132,11 @@ public class LinkedListDeque<T> {
      * If no such item exists, returns null.
      * */
     public T get(int index) {
-        if(size == 0 || index > size) {
+        if (size == 0 || index > size) {
             return null;
         }
         DequeNode ptr;
-        if (index < (size + size % 2) / 2) {
+        if ((index * 2) < size) {
             ptr = sentiFirst;
             for (int i = 1; i < index + 1; i += 1) {
                 ptr = ptr.next;
@@ -158,7 +158,7 @@ public class LinkedListDeque<T> {
     }
 
     public T getRecursive(int index) {
-        if(size == 0 || index > size) {
+        if (size == 0 || index > size) {
             return null;
         }
         if (index < 0) {
