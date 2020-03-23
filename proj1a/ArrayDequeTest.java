@@ -105,8 +105,16 @@ public class ArrayDequeTest {
         assertEquals(8, lld2.size());
         lld2.addLast(9);
         assertEquals(9, lld2.size());
-    }
 
+
+    }
+    @Test
+    public void checkAdvanceResizeUpTest() {
+        ArrayDeque<Integer> lld2 = new ArrayDeque<>();
+        for (int i = 0; i < 8; i += 1) {
+            lld2.addFirst(i);
+        }
+    }
     @Test
     public void checkResizeDownTest() {
         ArrayDeque<Integer> lld2 = new ArrayDeque<>();

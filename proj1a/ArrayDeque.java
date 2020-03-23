@@ -8,8 +8,10 @@ public class ArrayDeque<T> {
 
     /* buffering the old pointer for resizing*/
     private void oldUpdate() {
-        oldFirst = nextFirst;
-        oldLast = nextLast;
+        if(size == items.length - 2) {
+            oldFirst = nextFirst;
+            oldLast = nextLast;
+        }
     }
     public ArrayDeque() {
         items = (T []) new Object[8];
@@ -86,8 +88,11 @@ public class ArrayDeque<T> {
     private void resize(int checkRslt) {
 
         int oldLength = items.length;
+        int posFirst = oldFirst;
+        int posLast = oldLast;
+        /*
         int posFirst = (oldFirst + 1 == oldLength) ? 0 : oldFirst + 1;
-        int posLast = (oldLast - 1 < 0) ? oldLength - 1 : oldLast - 1;
+        int posLast = (oldLast - 1 < 0) ? oldLength - 1 : oldLast - 1;*/
 
         /* scale up by 4 times */
         if (checkRslt == 1) {
