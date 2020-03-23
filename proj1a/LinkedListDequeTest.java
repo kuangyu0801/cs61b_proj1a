@@ -4,15 +4,6 @@ import static org.junit.Assert.assertEquals;
 /** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
 	@Test
-	public void testGet() {
-		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
-		lld1.addFirst("front");
-		lld1.addLast("middle");
-		assertEquals("front", lld1.get(0));
-		assertEquals("middle", lld1.get(1));
-	}
-
-	@Test
 	public void testGetRecursion() {
 		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
 		lld1.addFirst("front");
@@ -28,6 +19,14 @@ public class LinkedListDequeTest {
 			return false;
 		}
 		return true;
+	}
+	@Test
+	public void testGet() {
+		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
+		lld1.addFirst("front");
+		lld1.addLast("middle");
+		assertEquals("front", lld1.get(0));
+		assertEquals("middle", lld1.get(1));
 	}
 
 	/* Utility method for printing out empty checks. */
