@@ -26,7 +26,7 @@ public class ArrayDeque<T> {
     }
 
     public boolean isEmpty() {
-        if(size == 0) {
+        if (size == 0) {
             return true;
         }
         return false;
@@ -84,7 +84,7 @@ public class ArrayDeque<T> {
             T[] rszItems = (T []) new Object[oldLength * 4];
             if (posLast - posFirst >= 0) {
                 /*no wrap, copy entire array in one shot*/
-                System.arraycopy(items,0, rszItems, oldLength + oldLength / 2, oldLength);
+                System.arraycopy(items, 0, rszItems, oldLength + oldLength / 2, oldLength);
                 nextFirst = oldLength + oldLength / 2 - 1;
                 nextLast = oldLength + size + 1;
             } else {

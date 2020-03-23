@@ -68,8 +68,9 @@ public class LinkedListDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (size == 0)
+        if (size == 0) {
             return true;
+        }
         return false;
     }
 
@@ -140,7 +141,7 @@ public class LinkedListDeque<T> {
     /*use iteration, not recursion*/
     public T get(int index) {
         DequeNode ptr;
-        if( index < (size + size % 2) / 2 ){
+        if( index < (size + size % 2) / 2 ) {
             ptr = sentiFirst;
             for (int i = 0; i < index - 1; i += 1) {
                 ptr = ptr.next;
