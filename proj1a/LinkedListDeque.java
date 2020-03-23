@@ -3,7 +3,7 @@ public class LinkedListDeque<T> {
     private DequeNode sentiLast;
     private int size;
 
-    private class DequeNode{
+    private class DequeNode {
         public T i;
         public DequeNode next;
         public DequeNode prev;
@@ -13,14 +13,14 @@ public class LinkedListDeque<T> {
             prev = front;
             next = back;
         }
-        public DequeNode(){
+        public DequeNode() {
             next = null;
             prev = null;
         }
 
     }
 
-    public LinkedListDeque(){
+    public LinkedListDeque() {
         // initiate a node without assigning item;
         this.sentiFirst = new DequeNode();
         this.sentiLast = this.sentiFirst;
@@ -28,7 +28,7 @@ public class LinkedListDeque<T> {
         this.sentiFirst.next = this.sentiFirst;
         this.size = 0;
     }
-    public LinkedListDeque(T item){
+    public LinkedListDeque(T item) {
         // initiate a node
         this.sentiFirst = new DequeNode(item, null, null);
 
@@ -42,7 +42,7 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        if(size == 0) {
+        if (size == 0) {
             sentiFirst.i = item;
         } else {
             /*buffering the first node*/
@@ -50,7 +50,7 @@ public class LinkedListDeque<T> {
             sentiFirst = new DequeNode(item, sentiLast, oldFirst.next);
 
             /* in size == 1 case sentiLast == oldFrist*/
-            if (size == 1){
+            if (size == 1) {
                 oldFirst.prev = sentiFirst;
                 oldFirst.next = sentiFirst;
             } else {
@@ -61,14 +61,14 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
-    public void addLast(T item){
-        if(size == 0) {
+    public void addLast(T item) {
+        if (size == 0) {
             sentiLast.i = item;
         } else {
             /*buffering the last node*/
             DequeNode oldLast = sentiLast;
             sentiLast = new DequeNode(item, oldLast, sentiFirst);
-            if (size == 1){
+            if (size == 1) {
                 oldLast.prev = sentiLast;
                 oldLast.next = sentiLast;
             } else {
@@ -79,20 +79,20 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
-    public boolean isEmpty(){
-        if(size == 0)
+    public boolean isEmpty() {
+        if (size == 0)
             return true;
         return false;
     }
 
-    public int size(){
+    public int size() {
         return this.size;
     }
 
     public void printDeque() {
         StringBuilder returnSB = new StringBuilder("{");
         DequeNode ptr = sentiFirst;
-        for (int i = 0; i < size; i += 1){
+        for (int i = 0; i < size; i += 1) {
             returnSB.append(ptr.i);
             returnSB.append(", ");
             ptr = ptr.next;
@@ -108,14 +108,14 @@ public class LinkedListDeque<T> {
         System.out.println(returnSB.toString());
     }
 
-    public T removeFirst(){
+    public T removeFirst() {
         T rtVal;
-        if(size == 0){
+        if (size == 0) {
             rtVal = null;
         } else {
             rtVal = sentiFirst.i;
 
-            if(size == 1){
+            if (size == 1) {
                 sentiFirst.i = null;
             } else {
                 sentiFirst = sentiFirst.next;
@@ -127,14 +127,13 @@ public class LinkedListDeque<T> {
         return rtVal;
     }
 
-    public T removeLast(){
+    public T removeLast() {
         T rtVal;
-        if(size == 0){
+        if (size == 0) {
             rtVal = null;
         } else {
             rtVal = sentiLast.i;
-
-            if(size == 1){
+            if (size == 1) {
                 sentiLast.i = null;
             } else {
                 sentiLast = sentiLast.prev;
@@ -151,16 +150,16 @@ public class LinkedListDeque<T> {
     }
 
     /*use iteration, not recursion*/
-    public T get(int index){
+    public T get(int index) {
         DequeNode ptr;
-        if( index < (size + size%2)/2 ){
+        if( index < (size + size %2)/2 ){
             ptr = sentiFirst;
-            for(int i = 0; i < index - 1; i += 1){
+            for (int i = 0; i < index - 1; i += 1) {
                 ptr = ptr.next;
             }
         } else {
             ptr = sentiLast;
-            for(int i = 0; i < size - index + 1; i += 1){
+            for (int i = 0; i < size - index + 1; i += 1) {
                 ptr = ptr.prev;
             }
         }
@@ -176,15 +175,15 @@ public class LinkedListDeque<T> {
         }
         return getNode(n.next, index, pos++);
     }*/
-    private DequeNode getNode(DequeNode n, int index){
+    private DequeNode getNode(DequeNode n, int index) {
         if (index == 0) {
             return n;
         }
         return getNode(n.next, index - 1);
     }
 
-    public T getRecursion(int index){
-        if (index < 0){
+    public T getRecursive(int index) {
+        if (index < 0) {
             return null;
         }
         DequeNode rtNode = this.getNode(sentiFirst, index);
