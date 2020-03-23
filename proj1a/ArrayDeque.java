@@ -26,8 +26,9 @@ public class ArrayDeque<T> {
     }
 
     public boolean isEmpty() {
-        if(size == 0)
+        if(size == 0) {
             return true;
+        }
         return false;
     }
 
@@ -77,14 +78,14 @@ public class ArrayDeque<T> {
         int posFirst = (nextFirst + 1 == oldLength) ? 0 : nextFirst + 1;
         int posLast = (nextLast - 1 < 0) ? oldLength - 1 : nextLast - 1;
 
-        /*scale up by 4 times*/
+        /* scale up by 4 times */
         if (checkRslt == 1) {
 
-            T[] rszItems = (T []) new Object[oldLength*4];
+            T[] rszItems = (T []) new Object[oldLength * 4];
             if (posLast - posFirst >= 0) {
                 /*no wrap, copy entire array in one shot*/
-                System.arraycopy(items,0, rszItems, oldLength + oldLength/2, oldLength);
-                nextFirst = oldLength + oldLength/2 - 1;
+                System.arraycopy(items,0, rszItems, oldLength + oldLength / 2, oldLength);
+                nextFirst = oldLength + oldLength / 2 - 1;
                 nextLast = oldLength + size + 1;
             } else {
                 /*wrap, copy array two time: head and tail*/
@@ -97,16 +98,16 @@ public class ArrayDeque<T> {
             items = rszItems;
 
         }
-        /*scale down by half*/
+        /* scale down by half */
         if (checkRslt == -1) {
-            T[] rszItems = (T []) new Object[oldLength/2];
+            T[] rszItems = (T []) new Object[oldLength / 2];
             if (posLast - posFirst >= 0) {
-                /*no wrap, copy entire array in one shot*/
-                System.arraycopy(items, posFirst, rszItems, oldLength/4, size);
-                nextFirst = oldLength/4 - 1;
-                nextLast = oldLength/4 + size + 1;
+                /* no wrap, copy entire array in one shot */
+                System.arraycopy(items, posFirst, rszItems, oldLength / 4, size);
+                nextFirst = oldLength / 4 - 1;
+                nextLast = oldLength / 4 + size + 1;
             } else {
-                /*wrap, copy array two time: head and tail*/
+                /* wrap, copy array two time: head and tail */
                 int tailLen = size - (posLast + 1);
                 int headLen = posLast + 1;
                 System.arraycopy(items, posFirst, rszItems, rszItems.length - tailLen, tailLen);
@@ -125,7 +126,7 @@ public class ArrayDeque<T> {
      * 1: array is full, scale to 4 times large>
      * 0: array is fine, no need to resize
      * */
-    private int resizeCheck(){
+    private int resizeCheck() {
         if (size == items.length) {
             return 1;
         }

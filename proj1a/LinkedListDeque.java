@@ -28,18 +28,6 @@ public class LinkedListDeque<T> {
         this.sentiFirst.next = this.sentiFirst;
         this.size = 0;
     }
-    public LinkedListDeque(T item) {
-        // initiate a node
-        this.sentiFirst = new DequeNode(item, null, null);
-
-        // setting
-        this.sentiLast = this.sentiFirst;
-
-        // setting pointer of node to itself
-        this.sentiFirst.next = this.sentiFirst;
-        this.sentiFirst.prev = this.sentiFirst;
-        this.size = 1;
-    }
 
     public void addFirst(T item) {
         if (size == 0) {
@@ -152,7 +140,7 @@ public class LinkedListDeque<T> {
     /*use iteration, not recursion*/
     public T get(int index) {
         DequeNode ptr;
-        if( index < (size + size %2)/2 ){
+        if( index < (size + size % 2) / 2 ){
             ptr = sentiFirst;
             for (int i = 0; i < index - 1; i += 1) {
                 ptr = ptr.next;
