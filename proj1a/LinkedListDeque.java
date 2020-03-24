@@ -131,26 +131,41 @@ public class LinkedListDeque<T> {
      * Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
      * If no such item exists, returns null.
      * */
-    public T get(int index) {
+    private T getSmart(int index) {
         if (size == 0 || index > size) {
             return null;
         }
         DequeNode ptr;
-        ptr = sentiFirst;
-        for (int i = 1; i < index + 1; i += 1) {
-            ptr = ptr.next;
-        }
-/*        if ((index * 2) <= size) {
+        if (index  <= (size + (size % 2)) / 2) {
             ptr = sentiFirst;
             for (int i = 1; i < index + 1; i += 1) {
                 ptr = ptr.next;
             }
         } else {
             ptr = sentiLast;
-            for (int i = 1; i < size - (index + 1); i += 1) {
+            for (int i = 1; i < size - index; i += 1) {
                 ptr = ptr.prev;
             }
-        }*/
+        }
+        return ptr.i;
+    }
+
+    public T get(int index) {
+        if (size == 0 || index > size) {
+            return null;
+        }
+        DequeNode ptr;
+        if (index  <= (size + (size % 2)) / 2) {
+            ptr = sentiFirst;
+            for (int i = 1; i < index + 1; i += 1) {
+                ptr = ptr.next;
+            }
+        } else {
+            ptr = sentiLast;
+            for (int i = 1; i < size - index; i += 1) {
+                ptr = ptr.prev;
+            }
+        }
         return ptr.i;
     }
 
