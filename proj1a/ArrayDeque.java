@@ -74,7 +74,7 @@ public class ArrayDeque<T> {
                 first = -1;
                 last = -1;
                 nextFirst = 4;
-                nextFirst = 5;
+                nextLast = 5;
             } else {
                 nextFirst = first;
                 first = (first + 1 == items.length) ? 0 : first + 1;
@@ -94,7 +94,7 @@ public class ArrayDeque<T> {
                 first = -1;
                 last = -1;
                 nextFirst = 4;
-                nextFirst = 5;
+                nextLast = 5;
             } else {
                 nextLast = last;
                 last = (last - 1 < 0) ? items.length - 1 : last - 1;

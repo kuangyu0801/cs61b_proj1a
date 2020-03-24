@@ -164,4 +164,27 @@ public class ArrayDequeTest {
         lld2.removeLast(); //      ==> 0
     }
 
+    @Test
+    public void getTest17() {
+        ArrayDeque<Integer> lld2 = new ArrayDeque<>();
+        lld2.addFirst(0);
+        lld2.removeFirst();     //  0
+        lld2.addFirst(2);
+        lld2.addFirst(3);
+        lld2.addFirst(4);
+        lld2.removeLast();      //  2
+        lld2.get(1);      //  3
+        lld2.get(0);      //  4
+        lld2.addFirst(8);
+        lld2.removeFirst();     //  8
+        lld2.removeFirst();     //  4
+        lld2.removeLast();      //  3
+        lld2.addFirst(12);
+        lld2.addFirst(13);
+        lld2.addLast(14);
+        lld2.removeLast();      //  14
+        lld2.addLast(16);
+        assertEquals(16, (int) lld2.get(2));
+              //  null
+    }
 }
