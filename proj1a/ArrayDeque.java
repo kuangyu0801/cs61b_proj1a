@@ -3,26 +3,31 @@ public class ArrayDeque<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
-    private int oldFirst;
-    private int oldLast;
+    private int first;
+    private int last;
 
     /* buffering the old pointer for resizing*/
-    private void oldUpdate() {
+/*    private void oldUpdate() {
         if(size == items.length - 2) {
             oldFirst = nextFirst;
             oldLast = nextLast;
         }
-    }
+    }*/
     public ArrayDeque() {
         items = (T []) new Object[8];
         nextFirst = 4; // First pointer starts in the middle
         nextLast = 5; // Second pointer starts in the middle
+        first = -1;
+        last = -1;
         size = 0;
     }
 
     public void addFirst(T item) {
         items[nextFirst] = item;
-        this.oldUpdate();
+        first = nextFirst;
+        if (size == 0) {
+            last = first;
+        }
         nextFirst = (nextFirst - 1 < 0) ? items.length - 1 : nextFirst - 1;
         size += 1;
         this.resize(this.resizeCheck());
@@ -30,7 +35,10 @@ public class ArrayDeque<T> {
 
     public void addLast(T item) {
         items[nextLast] = item;
-        this.oldUpdate();
+        last = nextLast;
+        if (size == 0) {
+            first = last;
+        }
         nextLast = (nextLast + 1 == items.length) ? 0 : nextLast + 1;
         size += 1;
         this.resize(this.resizeCheck());
@@ -60,36 +68,52 @@ public class ArrayDeque<T> {
     public T removeFirst() {
         if (size == 0) {
             return null;
+        } else {
+            T item = items[first];
+            if (size == 1) {
+                first = -1;
+                last = -1;
+                nextFirst = 4;
+                nextFirst = 5;
+            } else {
+                nextFirst = first;
+                first = (first + 1 == items.length) ? 0 : first + 1;
+            }
+            size -= 1;
+            this.resize(this.resizeCheck());
+            return item;
         }
-        this.oldUpdate();
-        nextFirst = (nextFirst + 1 == items.length) ? 0 : nextFirst + 1;
-        T item = items[nextFirst];
-        size -= 1;
-        this.resize(this.resizeCheck());
-        return item;
     }
 
     public T removeLast() {
         if (size == 0) {
             return null;
+        }  else {
+            T item = items[last];
+            if (size == 1) {
+                first = -1;
+                last = -1;
+                nextFirst = 4;
+                nextFirst = 5;
+            } else {
+                nextLast = last;
+                last = (last - 1 < 0) ? items.length - 1 : last - 1;
+            }
+            size -= 1;
+            this.resize(this.resizeCheck());
+            return item;
         }
-        this.oldUpdate();
-        nextLast = (nextLast - 1 < 0) ? items.length - 1 : nextLast - 1;
-        T item = items[nextLast];
-        size -= 1;
-        this.resize(this.resizeCheck());
-        return item;
     }
 
     public T get(int index) {
-        return items[((nextFirst + 1 + index) % items.length)];
+        return items[((first + index) % items.length)];
     }
 
     private void resize(int checkRslt) {
 
         int oldLength = items.length;
-        int posFirst = oldFirst;
-        int posLast = oldLast;
+        int posFirst = first;
+        int posLast = last;
         /*
         int posFirst = (oldFirst + 1 == oldLength) ? 0 : oldFirst + 1;
         int posLast = (oldLast - 1 < 0) ? oldLength - 1 : oldLast - 1;*/
@@ -98,37 +122,48 @@ public class ArrayDeque<T> {
         if (checkRslt == 1) {
 
             T[] rszItems = (T []) new Object[oldLength * 4];
-            if (posLast - posFirst >= 0) {
-                /*no wrap, copy entire array in one shot*/
+            if (last - first > 0) {
+                /* no wrap, copy entire array in one shot */
                 System.arraycopy(items, 0, rszItems, oldLength + oldLength / 2, oldLength);
-                nextFirst = oldLength + oldLength / 2 - 1;
-                nextLast = oldLength + size + 1;
+                first = oldLength + oldLength / 2;
+                last = first + size - 1;
+                nextFirst = first - 1;
+                nextLast = last + 1;
             } else {
-                /*wrap, copy array two time: head and tail*/
-                int tailLen = size - (posLast + 1);
-                int headLen = posLast + 1;
-                System.arraycopy(items, posFirst, rszItems, rszItems.length - tailLen, tailLen);
+                /* wrap, copy array two time: head and tail */
+                int tailLen = oldLength - first;
+                int headLen = last + 1;
+                System.arraycopy(items, first, rszItems, rszItems.length - tailLen, tailLen);
                 System.arraycopy(items, 0, rszItems, 0, headLen);
-                nextFirst = rszItems.length - tailLen - 1;
+                first = rszItems.length - tailLen;
+                nextFirst = rszItems.length - tailLen;
+                nextFirst = first - 1;
+                nextLast = last + 1;
             }
+
             items = rszItems;
 
         }
         /* scale down by half */
         if (checkRslt == -1) {
             T[] rszItems = (T []) new Object[oldLength / 2];
-            if (posLast - posFirst >= 0) {
+            if (last - first  > 0) {
                 /* no wrap, copy entire array in one shot */
-                System.arraycopy(items, posFirst, rszItems, oldLength / 4, size);
-                nextFirst = oldLength / 4 - 1;
-                nextLast = oldLength / 4 + size + 1;
+                System.arraycopy(items, first, rszItems, oldLength / 4, size);
+                first = oldLength / 4 - 1;
+                last = first + size - 1;
+                nextFirst = first - 1;
+                nextLast = last + 1;
             } else {
                 /* wrap, copy array two time: head and tail */
-                int tailLen = size - (posLast + 1);
-                int headLen = posLast + 1;
-                System.arraycopy(items, posFirst, rszItems, rszItems.length - tailLen, tailLen);
+                int tailLen = oldLength - first;
+                int headLen = last + 1;
+                System.arraycopy(items, first, rszItems, rszItems.length - tailLen, tailLen);
                 System.arraycopy(items, 0, rszItems, 0, headLen);
-                nextFirst = rszItems.length - tailLen - 1;
+                first = rszItems.length - tailLen;
+                nextFirst = rszItems.length - tailLen;
+                nextFirst = first - 1;
+                nextLast = last + 1;
             }
             items = rszItems;
         }

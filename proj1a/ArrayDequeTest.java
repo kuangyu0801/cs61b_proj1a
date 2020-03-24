@@ -115,6 +115,7 @@ public class ArrayDequeTest {
             lld2.addFirst(i);
         }
     }
+
     @Test
     public void checkResizeDownTest() {
         ArrayDeque<Integer> lld2 = new ArrayDeque<>();
