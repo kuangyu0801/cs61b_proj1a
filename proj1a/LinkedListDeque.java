@@ -136,7 +136,11 @@ public class LinkedListDeque<T> {
             return null;
         }
         DequeNode ptr;
-        if ((index * 2) < size) {
+        ptr = sentiFirst;
+        for (int i = 1; i < index + 1; i += 1) {
+            ptr = ptr.next;
+        }
+/*        if ((index * 2) <= size) {
             ptr = sentiFirst;
             for (int i = 1; i < index + 1; i += 1) {
                 ptr = ptr.next;
@@ -146,7 +150,7 @@ public class LinkedListDeque<T> {
             for (int i = 1; i < size - (index + 1); i += 1) {
                 ptr = ptr.prev;
             }
-        }
+        }*/
         return ptr.i;
     }
 
