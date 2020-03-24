@@ -117,6 +117,23 @@ public class ArrayDequeTest {
     }
 
     @Test
+    public void checkFillEmptyFill() {
+        ArrayDeque<Integer> lld2 = new ArrayDeque<>();
+
+        for (int i = 0; i < 8; i += 1) {
+            lld2.addFirst(i);
+        }
+
+        for (int i = 7; i >= 0; i -= 1) {
+            assertEquals(i, (int) lld2.removeFirst());
+        }
+
+        for (int i = 0; i < 8; i += 1) {
+            lld2.addFirst(i);
+        }
+    }
+
+    @Test
     public void checkResizeDownTest() {
         ArrayDeque<Integer> lld2 = new ArrayDeque<>();
         for (int i = 0; i < 32; i += 1) {

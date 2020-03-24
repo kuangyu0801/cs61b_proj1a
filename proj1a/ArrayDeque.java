@@ -150,7 +150,7 @@ public class ArrayDeque<T> {
             if (last - first  > 0) {
                 /* no wrap, copy entire array in one shot */
                 System.arraycopy(items, first, rszItems, oldLength / 4, size);
-                first = oldLength / 4 - 1;
+                first = oldLength / 4;
                 last = first + size - 1;
                 nextFirst = first - 1;
                 nextLast = last + 1;
